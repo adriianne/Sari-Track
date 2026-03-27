@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SARI-TRACK - Smart Inventory Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand d-flex align-items-center" href="landing.html">
+        <div class="logo-wrapper">
+          <img src="images/SARI-TRACK.png" alt="Logo" width="50" height="50" class="me-2" />
+        </div>
+        <div>
+          <div class="fw-bold fs-3 mb-0 brand-text">SARI-TRACK</div>
+          <small class="brand-subtitle">CONVENIENT SMART TRACKING</small>
+        </div>
+      </a>
+
+      <div class="search-box">
+        <span class="material-symbols-outlined search-icon">search</span>
+        <input class="search-input" type="text" placeholder="Search products, sales, reports..." />
+      </div>
+      
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="landingpage.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="landingpage.html">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="landingpage.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link btn-login" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link btn-signup" href="register.html">Sign up</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center min-vh-75">
+          <div class="col-lg-6 hero-content">
+            <div class="badge-new">✨ NEW - AI-Powered Insights</div>
+            <h1 class="hero-title">
+              Smart Inventory Management for 
+              <span class="highlight">Sari-Sari Stores</span>
+            </h1>
+            <p class="hero-description">
+              Track sales, manage inventory, and grow your business with SARI-TRACK. 
+              The all-in-one solution for Filipino sari-sari store owners.
+            </p>
+            <div class="hero-buttons">
+              <a href="register.html" class="btn btn-primary btn-lg me-3">Get Started Free</a>
+              <a href="#features" class="btn btn-outline-secondary btn-lg">Learn More</a>
+            </div>
+            <div class="hero-stats">
+              <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Active Stores</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Products Tracked</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-number">99%</div>
+                <div class="stat-label">Satisfaction</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 hero-image">
+            <div class="hero-illustration">
+              <div class="floating-card card-1">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span>Products: 245</span>
+              </div>
+              <div class="floating-card card-2">
+                <span class="material-symbols-outlined">receipt</span>
+                <span>Today's Sales: ₱5,280</span>
+              </div>
+              <div class="floating-card card-3">
+                <span class="material-symbols-outlined">warning</span>
+                <span>Low Stock Alert</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+      <div class="container">
+        <div class="text-center mb-5">
+          <div class="section-badge">Features</div>
+          <h2 class="section-title">Everything you need to manage your store</h2>
+          <p class="section-subtitle">Simple, powerful tools designed for sari-sari store owners</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <span class="material-symbols-outlined">inventory</span>
+              </div>
+              <h3>Inventory Management</h3>
+              <p>Track stock levels, set reorder points, and get low stock alerts automatically.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <span class="material-symbols-outlined">point_of_sale</span>
+              </div>
+              <h3>Sales Tracking</h3>
+              <p>Record daily sales, track profits, and generate detailed sales reports.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <span class="material-symbols-outlined">analytics</span>
+              </div>
+              <h3>Real-time Analytics</h3>
+              <p>Get insights on your best-selling products and optimize your inventory.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us Section -->
+<section id="about" class="about-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="section-badge">About Us</div>
+        <h2 class="section-title">Empowering Filipino Store Owners</h2>
+        <p class="about-description">
+          SARI-TRACK was born from a simple idea: help sari-sari store owners manage their 
+          inventory smarter, not harder. We understand the challenges of running a small 
+          business, and we built this platform to make tracking sales and inventory effortless.
+        </p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">2024</div>
+            <div class="stat-label">Founded</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Filipino-Made</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="about-image">
+          <div class="about-card">
+            <span class="material-symbols-outlined">storefront</span>
+            <p>"SARI-TRACK helped me reduce waste by 40% and increase profits by 25%!"</p>
+            <small>- Maria, Store Owner</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-wrapper">
+          <h2>Ready to streamline your store?</h2>
+          <p>Join hundreds of sari-sari store owners who trust SARI-TRACK</p>
+          <a href="register.html" class="btn btn-cta">Start Free Trial →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="footer-brand">
+            <div class="fw-bold fs-4">SARI-TRACK</div>
+            <small>Convenient Smart Tracking</small>
+          </div>
+          <p class="footer-description">Empowering sari-sari store owners with smart inventory solutions.</p>
+        </div>
+        <div class="col-md-2">
+          <h5>Product</h5>
+          <ul>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5>Get Started</h5>
+          <p class="footer-cta-text">Start managing your store today</p>
+          <a href="register.html" class="btn btn-footer">Sign Up Free</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>copy; 2024 SARI-TRACK. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

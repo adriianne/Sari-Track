@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SARI-TRACK</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Register</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="errorMessage" class="alert alert-danger" style="display:none"></div>
+                        <div id="successMessage" class="alert alert-success" style="display:none"></div>
+                        
+                        <form id="registerForm">
+                            <div class="mb-3">
+                                <label>Full Name</label>
+                                <input type="text" id="fullName" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Store Name</label>
+                                <input type="text" id="storeName" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Email</label>
+                                <input type="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Password</label>
+                                <input type="password" id="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                            <a href="login.html" class="btn btn-link">Already have an account?</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Use Firebase 8.x which uses global namespace (no modules) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <script>
+        // Your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5UfPcgv8x8F_AnFNPOeOnCwqplJ1n8zg",
+            authDomain: "sari-track-e8efe.firebaseapp.com",
+            databaseURL: "https://sari-track-e8efe-default-rtdb.firebaseio.com/",
+            projectId: "sari-track-e8efe",
+            storageBucket: "sari-track-e8efe.firebasestorage.app",
+            messagingSenderId: "554784936185",
+            appId: "1:554784936185:web:2dec2a0e1eb78ab8f05228",
+            measurementId: "G-ZL4W3RP7Z5"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+        
+        // Handle form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const storeName = document.getElementById('storeName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    
+                    return database.ref('users/' + user.uid).set({
+                        fullName: fullName,
+                        storeName: storeName,
+                        email: email,
+                        createdAt: new Date().toISOString()
+                    });
+                })
+                .then(() => {
+                    successDiv.style.display = 'block';
+                    successDiv.textContent = 'Registration successful! Redirecting...';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                })
+                .catch((error) => {
+                    errorDiv.style.display = 'block';
+                    errorDiv.textContent = error.message;
+                });
+        });
+    </script>
+</body>
+</html>
