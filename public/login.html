@@ -1,22 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SARI-TRACK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <a href="landingpage.html" class="back-btn">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back
+        </a>
 
-<nav class="navbar navbar-expand-lg bg-white shadow-sm">
-    <div class="container">
-        <div>
-            <a class="navbar-brand fw-bold fs-3" href="login.html" style="color: #8B5A2B;">SARI-TRACK</a>
-            <p class="small text-muted mb-0" style="font-size: 12px;">CREATIVE DESIGN, TRADING</p>
+        <div class="brand-title">
+            <span class="highlight">Sari-Track</span>: Convenient Smart Retail Tracker
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="login.html" style="color: #6c757d;">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-3" href="register.html" style="color: #6c757d;">Sign up</a>
-                </li>
-            </ul>
+
+        <div class="login-form">
+            <h3>Login your Account</h3>
+            
+            <div id="errorMessage" class="alert alert-danger" style="display:none"></div>
+            
+            <form id="loginForm">
+                <input type="email" id="email" class="input-field" placeholder="Email" required>
+                <input type="password" id="password" class="input-field" placeholder="Password" required>
+                
+                <div class="forgot-password">
+                    <a href="#">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+            
+            <button class="google-btn" id="googleLogin">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                Sign in with Google
+            </button>
+            
+            <div class="signup-link">
+                <a href="register.html">Create an Account</a>
+            </div>
         </div>
     </div>
-</nav>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5UfPcgv8x8F_AnFNPOeOnCwqplJ1n8zg",
+            authDomain: "sari-track-e8efe.firebaseapp.com",
+            databaseURL: "https://sari-track-e8efe-default-rtdb.firebaseio.com/",
+            projectId: "sari-track-e8efe",
+            storageBucket: "sari-track-e8efe.firebasestorage.app",
+            messagingSenderId: "554784936185",
+            appId: "1:554784936185:web:2dec2a0e1eb78ab8f05228"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            
+            errorDiv.style.display = 'none';
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    window.location.href = 'dashboard.html';
+                })
+                .catch((error) => {
+                    errorDiv.style.display = 'block';
+                    errorDiv.textContent = error.message;
+                });
+        });
+        
+        document.getElementById('googleLogin').addEventListener('click', function() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            auth.signInWithPopup(provider)
+                .then(() => {
+                    window.location.href = 'dashboard.html';
+                })
+                .catch((error) => {
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('errorMessage').textContent = error.message;
+                });
+        });
+    </script>
+</body>
+</html>
