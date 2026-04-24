@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales - SARI-TRACK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="css/sales.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </div>
+                <div class="user-info-sidebar">
+                    <h4 id="sidebarUserName">Loading...</h4>
+                    <p id="sidebarUserRole">OWNER</p>
+                </div>
+                <div class="store-info-sidebar">
+                    <span class="material-symbols-outlined">storefront</span>
+                    <p id="sidebarStoreName">LOADING...</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>INVENTORY</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <span class="material-symbols-outlined">category</span>
+                    <span>PRODUCTS</span>
+                </a>
+                <a href="sales.html" class="nav-item active">
+                    <span class="material-symbols-outlined">point_of_sale</span>
+                    <span>SALES</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="material-symbols-outlined">receipt</span>
+                    <span>REPORTS</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>SETTINGS</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="logout.html" class="nav-item logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>LOGOUT</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle" id="menuToggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </div>
+                <div class="search-bar">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" id="searchSales" placeholder="Search sales...">
+                </div>
+                <div class="header-user">
+                    <div class="theme-toggle" id="themeToggle">
+                        <span class="material-symbols-outlined dark-icon">dark_mode</span>
+                        <span class="material-symbols-outlined light-icon" style="display:none">light_mode</span>
+                    </div>
+                    <span class="material-symbols-outlined">notifications_none</span>
+                    <div class="header-avatar">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span id="headerUserName">Welcome User</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1 class="page-title">💰 Sales Transactions</h1>
+                    <button class="new-sale-btn" id="newSaleBtn">
+                        <span class="material-symbols-outlined">add</span>
+                        New Sale
+                    </button>
+                </div>
+
+                <!-- Sales Stats -->
+                <div class="sales-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <span class="material-symbols-outlined">today</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="todaySales">₱0</h3>
+                            <p>Today's Sales</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <span class="material-symbols-outlined">receipt_long</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="totalTransactions">0</h3>
+                            <p>Total Transactions</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <span class="material-symbols-outlined">calendar_month</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="weeklySales">₱0</h3>
+                            <p>This Week</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <span class="material-symbols-outlined">bar_chart</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="monthlySales">₱0</h3>
+                            <p>This Month</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="date-filter">
+                        <button class="filter-btn active" data-filter="today">Today</button>
+                        <button class="filter-btn" data-filter="week">This Week</button>
+                        <button class="filter-btn" data-filter="month">This Month</button>
+                        <button class="filter-btn" data-filter="all">All Time</button>
+                    </div>
+                    <div class="date-range" id="dateRange" style="display:none">
+                        <input type="date" id="startDate">
+                        <span>to</span>
+                        <input type="date" id="endDate">
+                        <button id="applyDateRange" class="apply-btn">Apply</button>
+                    </div>
+                </div>
+
+                <!-- Sales Table -->
+                <div class="sales-table-container">
+                    <div class="table-header">
+                        <h3>Sales History</h3>
+                        <button id="exportBtn" class="export-btn">
+                            <span class="material-symbols-outlined">download</span>
+                            Export
+                        </button>
+                    </div>
+                    
+                    <div class="sales-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Customer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="salesTableBody">
+                                <tr class="empty-state">
+                                    <td colspan="6">No sales recorded yet. Click "New Sale" to get started.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5UfPcgv8x8F_AnFNPOeOnCwqplJ1n8zg",
+            authDomain: "sari-track-e8efe.firebaseapp.com",
+            databaseURL: "https://sari-track-e8efe-default-rtdb.firebaseio.com/",
+            projectId: "sari-track-e8efe",
+            storageBucket: "sari-track-e8efe.firebasestorage.app",
+            messagingSenderId: "554784936185",
+            appId: "1:554784936185:web:2dec2a0e1eb78ab8f05228"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        let currentFilter = 'today';
+        let allSales = [];
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                loadUserData(user.uid);
+                loadSalesData(user.uid);
+            }
+        });
+
+        function loadUserData(userId) {
+            database.ref('users/' + userId).once('value').then((snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    const fullName = userData.fullName || userData.firstName + ' ' + userData.lastName;
+                    const storeName = userData.storeName || 'MY STORE';
+                    document.getElementById('sidebarUserName').textContent = fullName;
+                    document.getElementById('headerUserName').textContent = fullName;
+                    document.getElementById('sidebarStoreName').textContent = storeName.toUpperCase();
+                }
+            });
+        }
+
+        function loadSalesData(userId) {
+            database.ref('sales').orderByChild('userId').equalTo(userId).once('value', (snapshot) => {
+                allSales = [];
+                snapshot.forEach((child) => {
+                    const sale = child.val();
+                    sale.id = child.key;
+                    allSales.push(sale);
+                });
+                // Sort by date descending (newest first)
+                allSales.sort((a, b) => new Date(b.date) - new Date(a.date));
+                updateDashboard();
+                displaySales();
+            });
+        }
+
+        function updateDashboard() {
+            const today = new Date().toDateString();
+            const now = new Date();
+            const weekAgo = new Date(now.setDate(now.getDate() - 7));
+            const monthAgo = new Date(now.setMonth(now.getMonth() - 1));
+
+            let todayTotal = 0;
+            let weekTotal = 0;
+            let monthTotal = 0;
+            let transactionCount = allSales.length;
+
+            allSales.forEach(sale => {
+                const saleDate = new Date(sale.date).toDateString();
+                const saleDateObj = new Date(sale.date);
+                
+                if (saleDate === today) {
+                    todayTotal += sale.totalAmount;
+                }
+                if (saleDateObj >= weekAgo) {
+                    weekTotal += sale.totalAmount;
+                }
+                if (saleDateObj >= monthAgo) {
+                    monthTotal += sale.totalAmount;
+                }
+            });
+
+            document.getElementById('todaySales').textContent = '₱' + todayTotal.toLocaleString();
+            document.getElementById('totalTransactions').textContent = transactionCount;
+            document.getElementById('weeklySales').textContent = '₱' + weekTotal.toLocaleString();
+            document.getElementById('monthlySales').textContent = '₱' + monthTotal.toLocaleString();
+        }
+
+        function displaySales() {
+            const tbody = document.getElementById('salesTableBody');
+            let filteredSales = [...allSales];
+            
+            const today = new Date().toDateString();
+            const now = new Date();
+            
+            if (currentFilter === 'today') {
+                filteredSales = allSales.filter(sale => new Date(sale.date).toDateString() === today);
+            } else if (currentFilter === 'week') {
+                const weekAgo = new Date(now.setDate(now.getDate() - 7));
+                filteredSales = allSales.filter(sale => new Date(sale.date) >= weekAgo);
+            } else if (currentFilter === 'month') {
+                const monthAgo = new Date(now.setMonth(now.getMonth() - 1));
+                filteredSales = allSales.filter(sale => new Date(sale.date) >= monthAgo);
+            }
+            
+            if (filteredSales.length === 0) {
+                tbody.innerHTML = '<tr class="empty-state"><td colspan="6">No sales found for this period.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            filteredSales.forEach((sale) => {
+                const date = new Date(sale.date).toLocaleDateString();
+                html += `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${sale.productName}</td>
+                        <td>${sale.quantity}</td>
+                        <td>₱${sale.price?.toFixed(2) || 0}</td>
+                        <td class="total-amount">₱${sale.totalAmount?.toFixed(2) || 0}</td>
+                        <td>${sale.customerName || 'Walk-in'}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                displaySales();
+            });
+        });
+
+        // New Sale Button
+        document.getElementById('newSaleBtn').addEventListener('click', () => {
+            alert('New Sale form - Coming in Sprint 3!');
+        });
+
+        // Export Button
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            alert('Export feature - Coming in Sprint 3!');
+        });
+
+        // Search functionality
+        document.getElementById('searchSales').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = allSales.filter(sale => 
+                sale.productName?.toLowerCase().includes(searchTerm) ||
+                sale.customerName?.toLowerCase().includes(searchTerm)
+            );
+            displayFilteredSales(filtered);
+        });
+
+        function displayFilteredSales(sales) {
+            const tbody = document.getElementById('salesTableBody');
+            if (sales.length === 0) {
+                tbody.innerHTML = '<tr class="empty-state"><td colspan="6">No matching sales found.</td></tr>';
+                return;
+            }
+            let html = '';
+            sales.forEach((sale) => {
+                const date = new Date(sale.date).toLocaleDateString();
+                html += `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${sale.productName}</td>
+                        <td>${sale.quantity}</td>
+                        <td>₱${sale.price?.toFixed(2) || 0}</td>
+                        <td class="total-amount">₱${sale.totalAmount?.toFixed(2) || 0}</td>
+                        <td>${sale.customerName || 'Walk-in'}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const darkIcon = document.querySelector('.dark-icon');
+        const lightIcon = document.querySelector('.light-icon');
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+            darkIcon.style.display = 'none';
+            lightIcon.style.display = 'inline-block';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('dark')) {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                darkIcon.style.display = 'inline-block';
+                lightIcon.style.display = 'none';
+            } else {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                darkIcon.style.display = 'none';
+                lightIcon.style.display = 'inline-block';
+            }
+        });
+
+        // Mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('show');
+            overlay.classList.add('show');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+    </script>
+</body>
+</html>

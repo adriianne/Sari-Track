@@ -1,0 +1,221 @@
+/* Import base styles from dashboard */
+@import url('dashboard.css');
+
+/* Inventory Page Specific Styles */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.add-product-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #011D66;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-product-btn:hover {
+    background: #0a2e7a;
+    transform: translateY(-2px);
+}
+
+.inventory-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.inventory-table-container {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.table-header h3 {
+    font-size: 18px;
+    color: #011D66;
+}
+
+.filter-select {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.inventory-table {
+    overflow-x: auto;
+}
+
+.inventory-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th {
+    text-align: left;
+    padding: 12px 10px;
+    background: #f8fafc;
+    color: #011D66;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.inventory-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e293b;
+    font-size: 14px;
+}
+
+.product-name {
+    font-weight: 500;
+}
+
+.price {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.stock {
+    font-weight: 500;
+}
+
+.stock.low {
+    color: #f59e0b;
+}
+
+.stock.out {
+    color: #ef4444;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.good {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.status-badge.low {
+    background: #fed7aa;
+    color: #f59e0b;
+}
+
+.status-badge.out {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.action-btn.edit {
+    color: #3b82f6;
+}
+
+.action-btn.edit:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.action-btn.delete {
+    color: #ef4444;
+}
+
+.action-btn.delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.stat-icon.red {
+    background: #fee2e2;
+}
+
+.stat-icon.red .material-symbols-outlined {
+    color: #ef4444;
+}
+
+/* Dark Mode */
+body.dark .inventory-table-container {
+    background: #1e293b;
+    border: 1px solid #334155;
+}
+
+body.dark .table-header h3 {
+    color: #60a5fa;
+}
+
+body.dark .filter-select {
+    background: #0f172a;
+    border-color: #334155;
+    color: #94a3b8;
+}
+
+body.dark .inventory-table th {
+    background: #0f172a;
+    color: #60a5fa;
+    border-bottom-color: #334155;
+}
+
+body.dark .inventory-table td {
+    border-bottom-color: #334155;
+    color: #f1f5f9;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .inventory-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .inventory-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

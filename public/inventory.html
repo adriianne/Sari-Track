@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - SARI-TRACK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="css/inventory.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </div>
+                <div class="user-info-sidebar">
+                    <h4 id="sidebarUserName">Loading...</h4>
+                    <p id="sidebarUserRole">OWNER</p>
+                </div>
+                <div class="store-info-sidebar">
+                    <span class="material-symbols-outlined">storefront</span>
+                    <p id="sidebarStoreName">LOADING...</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="inventory.html" class="nav-item active">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>INVENTORY</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <span class="material-symbols-outlined">category</span>
+                    <span>PRODUCTS</span>
+                </a>
+                <a href="sales.html" class="nav-item">
+                    <span class="material-symbols-outlined">point_of_sale</span>
+                    <span>SALES</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="material-symbols-outlined">receipt</span>
+                    <span>REPORTS</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>SETTINGS</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="logout.html" class="nav-item logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>LOGOUT</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle" id="menuToggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </div>
+                <div class="search-bar">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" placeholder="Search inventory...">
+                </div>
+                <div class="header-user">
+                    <div class="theme-toggle" id="themeToggle">
+                        <span class="material-symbols-outlined dark-icon">dark_mode</span>
+                        <span class="material-symbols-outlined light-icon" style="display:none">light_mode</span>
+                    </div>
+                    <span class="material-symbols-outlined">notifications_none</span>
+                    <div class="header-avatar">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span id="headerUserName">Welcome User</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h1 class="page-title">📦 Inventory Management</h1>
+                    <button class="add-product-btn" id="addProductBtn">
+                        <span class="material-symbols-outlined">add</span>
+                        Add Product
+                    </button>
+                </div>
+
+                <div class="inventory-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <span class="material-symbols-outlined">inventory_2</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="inStockCount">0</h3>
+                            <p>In Stock</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="lowStockCount">0</h3>
+                            <p>Low Stock</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <span class="material-symbols-outlined">cancel</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="outOfStockCount">0</h3>
+                            <p>Out of Stock</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-table-container">
+                    <div class="table-header">
+                        <h3>All Products</h3>
+                        <div class="filter-group">
+                            <select id="categoryFilter" class="filter-select">
+                                <option value="all">All Categories</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Canned Goods">Canned Goods</option>
+                                <option value="Noodles">Noodles</option>
+                                <option value="Personal Care">Personal Care</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                <div class="inventory-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                            <tr class="empty-state">
+                                <td colspan="6">No products found. Click "Add Product" to get started.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5UfPcgv8x8F_AnFNPOeOnCwqplJ1n8zg",
+            authDomain: "sari-track-e8efe.firebaseapp.com",
+            databaseURL: "https://sari-track-e8efe-default-rtdb.firebaseio.com/",
+            projectId: "sari-track-e8efe",
+            storageBucket: "sari-track-e8efe.firebasestorage.app",
+            messagingSenderId: "554784936185",
+            appId: "1:554784936185:web:2dec2a0e1eb78ab8f05228"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        auth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                loadUserData(user.uid);
+                loadInventoryData(user.uid);
+            }
+        });
+
+        function loadUserData(userId) {
+            database.ref('users/' + userId).once('value').then((snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    const fullName = userData.fullName || userData.firstName + ' ' + userData.lastName;
+                    const storeName = userData.storeName || 'MY STORE';
+                    document.getElementById('sidebarUserName').textContent = fullName;
+                    document.getElementById('headerUserName').textContent = fullName;
+                    document.getElementById('sidebarStoreName').textContent = storeName.toUpperCase();
+                }
+            });
+        }
+
+        function loadInventoryData(userId) {
+            database.ref('products').orderByChild('userId').equalTo(userId).once('value', (snapshot) => {
+                const products = [];
+                let totalProducts = 0;
+                let inStock = 0;
+                let lowStock = 0;
+                let outOfStock = 0;
+
+                snapshot.forEach((child) => {
+                    const product = child.val();
+                    product.id = child.key;
+                    products.push(product);
+                    totalProducts++;
+
+                    if (product.quantity <= 0) {
+                        outOfStock++;
+                    } else if (product.quantity <= (product.reorderPoint || 10)) {
+                        lowStock++;
+                    } else {
+                        inStock++;
+                    }
+                });
+
+                document.getElementById('totalProducts').textContent = totalProducts;
+                document.getElementById('inStockCount').textContent = inStock;
+                document.getElementById('lowStockCount').textContent = lowStock;
+                document.getElementById('outOfStockCount').textContent = outOfStock;
+
+                displayInventoryTable(products);
+            });
+        }
+
+        function displayInventoryTable(products) {
+            const tbody = document.getElementById('inventoryTableBody');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No products found. Click "Add Product" to get started.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            products.forEach((product) => {
+                let statusHtml = '';
+                if (product.quantity <= 0) {
+                    statusHtml = '<span class="status-badge out">Out of Stock</span>';
+                } else if (product.quantity <= (product.reorderPoint || 10)) {
+                    statusHtml = '<span class="status-badge low">Low Stock</span>';
+                } else {
+                    statusHtml = '<span class="status-badge good">In Stock</span>';
+                }
+
+                html += `
+                    <tr>
+                        <td class="product-name">${product.name}</td>
+                        <td>${product.category || 'Uncategorized'}</td>
+                        <td class="price">₱${product.price?.toFixed(2) || 0}</td>
+                        <td class="stock ${product.quantity <= 0 ? 'out' : (product.quantity <= (product.reorderPoint || 10) ? 'low' : '')}">${product.quantity || 0}</td>
+                        <td>${statusHtml}</td>
+                        <td class="actions">
+                            <button class="action-btn edit" onclick="editProduct('${product.id}')">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button class="action-btn delete" onclick="deleteProduct('${product.id}')">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function editProduct(productId) {
+            alert('Edit product feature coming in Sprint 3!');
+        }
+
+        function deleteProduct(productId) {
+            alert('Delete product feature coming in Sprint 3!');
+        }
+
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            alert('Add product page coming in Sprint 3!');
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const darkIcon = document.querySelector('.dark-icon');
+        const lightIcon = document.querySelector('.light-icon');
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+            darkIcon.style.display = 'none';
+            lightIcon.style.display = 'inline-block';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('dark')) {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                darkIcon.style.display = 'inline-block';
+                lightIcon.style.display = 'none';
+            } else {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                darkIcon.style.display = 'none';
+                lightIcon.style.display = 'inline-block';
+            }
+        });
+
+        // Mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('mobileOverlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('show');
+            overlay.classList.add('show');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+    </script>
+</body>
+</html>

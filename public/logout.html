@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logging out...</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5UfPcgv8x8F_AnFNPOeOnCwqplJ1n8zg",
+            authDomain: "sari-track-e8efe.firebaseapp.com",
+            databaseURL: "https://sari-track-e8efe-default-rtdb.firebaseio.com/",
+            projectId: "sari-track-e8efe",
+            storageBucket: "sari-track-e8efe.firebasestorage.app",
+            messagingSenderId: "554784936185",
+            appId: "1:554784936185:web:2dec2a0e1eb78ab8f05228"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        
+        firebase.auth().signOut().then(() => {
+            window.location.href = 'landingpage.html';
+        });
+    </script>
+</head>
+<body style="display:flex; justify-content:center; align-items:center; height:100vh;">
+    <p>Logging out...</p>
+</body>
+</html>
