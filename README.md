@@ -1,5 +1,5 @@
 # Sari-Track
-Smart Inventory, Sales & Credit (Utang) Management for Sari-Sari Stores
+Smart Inventory, Sales & Credit Management for Sari-Sari Stores
 
 
 ## Progess
