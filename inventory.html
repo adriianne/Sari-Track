@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - SARI-TRACK</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="css/inventory.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </div>
+                <div class="user-info-sidebar">
+                    <h4 id="sidebarUserName">Loading...</h4>
+                    <p id="sidebarUserRole">OWNER</p>
+                </div>
+                <div class="store-info-sidebar">
+                    <span class="material-symbols-outlined">storefront</span>
+                    <p id="sidebarStoreName">LOADING...</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>DASHBOARD</span>
+                </a>
+                <a href="inventory.html" class="nav-item active">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span>INVENTORY</span>
+                </a>
+                <a href="products.html" class="nav-item">
+                    <span class="material-symbols-outlined">category</span>
+                    <span>PRODUCTS</span>
+                </a>
+                <a href="sales.html" class="nav-item">
+                    <span class="material-symbols-outlined">point_of_sale</span>
+                    <span>SALES</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="material-symbols-outlined">receipt</span>
+                    <span>REPORTS</span>
+                </a>
+                <a href="settings.html" class="nav-item">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>SETTINGS</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-logout">
+                <a href="logout.html" class="nav-item logout">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>LOGOUT</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="menu-toggle" id="menuToggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </div>
+                <div class="search-bar">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" id="searchInventory" placeholder="Search inventory...">
+                </div>
+                <div class="header-user">
+                    <div class="theme-toggle" id="themeToggle">
+                        <span class="material-symbols-outlined dark-icon">dark_mode</span>
+                        <span class="material-symbols-outlined light-icon" style="display:none">light_mode</span>
+                    </div>
+                    <span class="material-symbols-outlined">notifications_none</span>
+                    <div class="header-avatar">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span id="headerUserName">Welcome User</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+            <div class="page-header">
+                <h1 class="page-title">📦 Inventory Management</h1>
+                <div class="button-group">
+                    <button class="scan-barcode-btn" id="scanBarcodeBtn">
+                        <span class="material-symbols-outlined">scan</span>
+                        Scan Barcode
+                    </button>
+                    <button class="add-product-btn" id="addProductBtn">
+                        <span class="material-symbols-outlined">add</span>
+                        Add Product
+                    </button>
+                </div>
+            </div>
+
+                <div class="inventory-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <span class="material-symbols-outlined">inventory_2</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="totalProducts">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="inStockCount">0</h3>
+                            <p>In Stock</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <span class="material-symbols-outlined">warning</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="lowStockCount">0</h3>
+                            <p>Low Stock</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <span class="material-symbols-outlined">cancel</span>
+                        </div>
+                        <div class="stat-details">
+                            <h3 id="outOfStockCount">0</h3>
+                            <p>Out of Stock</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-table-container">
+                    <div class="table-header">
+                        <h3>All Products</h3>
+                        <div class="filter-group">
+                            <select id="categoryFilter" class="filter-select">
+                                <option value="all">All Categories</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Canned Goods">Canned Goods</option>
+                                <option value="Noodles">Noodles</option>
+                                <option value="Personal Care">Personal Care</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="inventory-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Barcode</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <tr class="empty-state">
+                                    <td colspan="7">No products found. Click "Add Product" to get started.</td>
+                                <tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Barcode Scanner Modal -->
+    <div id="scannerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📷 Scan Product Barcode</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="barcode-reader"></div>
+                <p class="scanner-hint">Position barcode in front of camera</p>
+            </div>
+            <div class="modal-footer">
+                <button id="manualEntryBtn" class="manual-btn">Enter Barcode Manually</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="addProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>➕ Add New Product</h3>
+                <span class="close-add-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="productName" class="settings-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Barcode (Optional)</label>
+                        <input type="text" id="productBarcode" class="settings-input" placeholder="Scan or enter barcode">
+                        <button type="button" id="scanInModalBtn" class="small-scan-btn">Scan</button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="productCategory" class="settings-select">
+                                <option value="Beverages">Beverages</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Canned Goods">Canned Goods</option>
+                                <option value="Noodles">Noodles</option>
+                                <option value="Personal Care">Personal Care</option>
+                                <option value="Household">Household</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₱)</label>
+                            <input type="number" id="productPrice" class="settings-input" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" id="productQuantity" class="settings-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Reorder Point</label>
+                            <input type="number" id="productReorder" class="settings-input" value="10">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelAddBtn" class="cancel-btn">Cancel</button>
+                <button id="saveProductBtn" class="save-btn">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Edit Product</h3>
+                <span class="close-edit-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="editProductId">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" id="editProductName" class="settings-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Barcode</label>
+                        <input type="text" id="editProductBarcode" class="settings-input">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="editProductCategory" class="settings-select">
+                                <option value="Beverages">Beverages</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Canned Goods">Canned Goods</option>
+                                <option value="Noodles">Noodles</option>
+                                <option value="Personal Care">Personal Care</option>
+                                <option value="Household">Household</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₱)</label>
+                            <input type="number" id="editProductPrice" class="settings-input" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" id="editProductQuantity" class="settings-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Reorder Point</label>
+                            <input type="number" id="editProductReorder" class="settings-input" value="10">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelEditBtn" class="cancel-btn">Cancel</button>
+                <button id="updateProductBtn" class="save-btn">Update Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+<div id="addProductModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>➕ Add New Product</h3>
+            <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" class="settings-input" placeholder="e.g., Coca-Cola 1.5L" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Barcode (Optional)</label>
+                        <input type="text" id="productBarcode" class="settings-input" placeholder="Scan or enter barcode">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="productCategory" class="settings-select">
+                            <option value="Beverages">Beverages</option>
+                            <option value="Snacks">Snacks</option>
+                            <option value="Canned Goods">Canned Goods</option>
+                            <option value="Noodles">Noodles</option>
+                            <option value="Personal Care">Personal Care</option>
+                            <option value="Household">Household</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price (₱) *</label>
+                        <input type="number" id="productPrice" class="settings-input" step="0.01" placeholder="0.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" id="productQuantity" class="settings-input" placeholder="0" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Reorder Point</label>
+                    <input type="number" id="productReorder" class="settings-input" value="10" placeholder="Low stock alert at">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="cancelAddBtn" class="cancel-btn">Cancel</button>
+            <button type="button" id="saveProductBtn" class="save-btn">Save Product</button>
+        </div>
+    </div>
+</div>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5UfPcgv8x8F_AnFNPOeOnCwqplJ1n8zg",
+        authDomain: "sari-track-e8efe.firebaseapp.com",
+        databaseURL: "https://sari-track-e8efe-default-rtdb.firebaseio.com/",
+        projectId: "sari-track-e8efe",
+        storageBucket: "sari-track-e8efe.firebasestorage.app",
+        messagingSenderId: "554784936185",
+        appId: "1:554784936185:web:2dec2a0e1eb78ab8f05228"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const database = firebase.database();
+
+    let currentUserId = null;
+    let allProducts = [];
+    let html5QrCode = null;
+
+    // ========== AUTHENTICATION ==========
+    auth.onAuthStateChanged((user) => {
+        if (!user) {
+            window.location.href = 'login.html';
+        } else {
+            currentUserId = user.uid;
+            loadUserData(currentUserId);
+            loadInventoryData(currentUserId);
+        }
+    });
+
+    // ========== LOAD USER DATA ==========
+    function loadUserData(userId) {
+        database.ref('users/' + userId).once('value').then((snapshot) => {
+            const userData = snapshot.val();
+            if (userData) {
+                const firstName = userData.firstName || '';
+                const lastName = userData.lastName || '';
+                const fullName = firstName + ' ' + lastName;
+                const storeName = userData.storeName || 'MY STORE';
+                
+                document.getElementById('sidebarUserName').textContent = fullName.trim() || 'Store Owner';
+                document.getElementById('headerUserName').textContent = fullName.trim() || 'Store Owner';
+                document.getElementById('sidebarStoreName').textContent = storeName.toUpperCase();
+            }
+        });
+    }
+
+    // ========== LOAD INVENTORY DATA ==========
+    function loadInventoryData(userId) {
+        database.ref('products').orderByChild('userId').equalTo(userId).once('value', (snapshot) => {
+            allProducts = [];
+            let totalProducts = 0;
+            let inStock = 0;
+            let lowStock = 0;
+            let outOfStock = 0;
+
+            snapshot.forEach((child) => {
+                const product = child.val();
+                product.id = child.key;
+                allProducts.push(product);
+                totalProducts++;
+
+                if (product.quantity <= 0) {
+                    outOfStock++;
+                } else if (product.quantity <= (product.reorderPoint || 10)) {
+                    lowStock++;
+                } else {
+                    inStock++;
+                }
+            });
+
+            document.getElementById('totalProducts').textContent = totalProducts;
+            document.getElementById('inStockCount').textContent = inStock;
+            document.getElementById('lowStockCount').textContent = lowStock;
+            document.getElementById('outOfStockCount').textContent = outOfStock;
+
+            displayInventoryTable(allProducts);
+        });
+    }
+
+    // ========== DISPLAY INVENTORY TABLE ==========
+    function displayInventoryTable(products) {
+        const tbody = document.getElementById('inventoryTableBody');
+        const searchTerm = document.getElementById('searchInventory').value.toLowerCase();
+        const categoryFilter = document.getElementById('categoryFilter').value;
+        
+        let filtered = products.filter(product => {
+            const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                                (product.barcode && product.barcode.toLowerCase().includes(searchTerm));
+            const matchesCategory = categoryFilter === 'all' || product.category === categoryFilter;
+            return matchesSearch && matchesCategory;
+        });
+        
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr class="empty-state"><td colspan="7">No products found.</td></tr>';
+            return;
+        }
+
+        let html = '';
+        filtered.forEach((product) => {
+            let statusHtml = '';
+            let stockClass = '';
+            
+            if (product.quantity <= 0) {
+                statusHtml = '<span class="status-badge out">Out of Stock</span>';
+                stockClass = 'out';
+            } else if (product.quantity <= (product.reorderPoint || 10)) {
+                statusHtml = '<span class="status-badge low">Low Stock</span>';
+                stockClass = 'low';
+            } else {
+                statusHtml = '<span class="status-badge good">In Stock</span>';
+                stockClass = 'good';
+            }
+
+            html += `
+                <tr data-id="${product.id}">
+                    <td class="product-name">${product.name}</td>
+                    <td class="barcode">${product.barcode || '—'}</td>
+                    <td>${product.category || 'Uncategorized'}</td>
+                    <td class="price">₱${product.price?.toFixed(2) || 0}</td>
+                    <td class="stock ${stockClass}">${product.quantity || 0}</td>
+                    <td>${statusHtml}</td>
+                    <td class="actions">
+                        <button class="action-btn edit" onclick="openEditModal('${product.id}')">
+                            <span class="material-symbols-outlined">edit</span>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteProduct('${product.id}')">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
+
+    // ========== SEARCH & FILTER ==========
+    document.getElementById('searchInventory').addEventListener('input', () => {
+        displayInventoryTable(allProducts);
+    });
+    
+    document.getElementById('categoryFilter').addEventListener('change', () => {
+        displayInventoryTable(allProducts);
+    });
+
+    // ========== ADD PRODUCT MODAL ==========
+    const addModal = document.getElementById('addProductModal');
+    const addBtn = document.getElementById('addProductBtn');
+    const closeModal = document.querySelector('#addProductModal .close-modal');
+    const cancelBtn = document.getElementById('cancelAddBtn');
+    const saveBtn = document.getElementById('saveProductBtn');
+
+    addBtn.addEventListener('click', () => {
+        document.getElementById('addProductForm').reset();
+        addModal.style.display = 'flex';
+    });
+
+    function closeAddModal() {
+        addModal.style.display = 'none';
+    }
+
+    if (closeModal) closeModal.addEventListener('click', closeAddModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeAddModal);
+
+    window.addEventListener('click', (e) => {
+        if (e.target === addModal) closeAddModal();
+    });
+
+    saveBtn.addEventListener('click', () => {
+        const name = document.getElementById('productName').value.trim();
+        const barcode = document.getElementById('productBarcode').value.trim();
+        const category = document.getElementById('productCategory').value;
+        const price = parseFloat(document.getElementById('productPrice').value);
+        const quantity = parseInt(document.getElementById('productQuantity').value);
+        const reorderPoint = parseInt(document.getElementById('productReorder').value);
+        
+        if (!name) { alert('Please enter product name'); return; }
+        if (isNaN(price) || price < 0) { alert('Please enter a valid price'); return; }
+        if (isNaN(quantity) || quantity < 0) { alert('Please enter a valid quantity'); return; }
+        
+        const userId = auth.currentUser.uid;
+        const newProduct = {
+            userId: userId,
+            name: name,
+            barcode: barcode || null,
+            category: category,
+            price: price,
+            quantity: quantity,
+            reorderPoint: reorderPoint,
+            createdAt: new Date().toISOString()
+        };
+        
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+        
+        database.ref('products').push(newProduct)
+            .then(() => {
+                alert('Product added successfully!');
+                closeAddModal();
+                loadInventoryData(userId);
+            })
+            .catch((error) => { alert('Error: ' + error.message); })
+            .finally(() => {
+                saveBtn.disabled = false;
+                saveBtn.textContent = 'Save Product';
+            });
+    });
+
+    // ========== EDIT PRODUCT MODAL ==========
+    const editModal = document.getElementById('editProductModal');
+    const closeEditModal = document.querySelector('#editProductModal .close-modal');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const updateBtn = document.getElementById('updateProductBtn');
+
+    window.openEditModal = (productId) => {
+        const product = allProducts.find(p => p.id === productId);
+        if (product) {
+            document.getElementById('editProductId').value = product.id;
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editProductBarcode').value = product.barcode || '';
+            document.getElementById('editProductCategory').value = product.category || 'Beverages';
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductQuantity').value = product.quantity;
+            document.getElementById('editProductReorder').value = product.reorderPoint || 10;
+            editModal.style.display = 'flex';
+        }
+    };
+
+    function closeEditModalFunc() {
+        editModal.style.display = 'none';
+    }
+
+    if (closeEditModal) closeEditModal.addEventListener('click', closeEditModalFunc);
+    if (cancelEditBtn) cancelEditBtn.addEventListener('click', closeEditModalFunc);
+
+    window.addEventListener('click', (e) => {
+        if (e.target === editModal) closeEditModalFunc();
+    });
+
+    updateBtn.addEventListener('click', () => {
+        const productId = document.getElementById('editProductId').value;
+        const updates = {
+            name: document.getElementById('editProductName').value,
+            barcode: document.getElementById('editProductBarcode').value || null,
+            category: document.getElementById('editProductCategory').value,
+            price: parseFloat(document.getElementById('editProductPrice').value),
+            quantity: parseInt(document.getElementById('editProductQuantity').value),
+            reorderPoint: parseInt(document.getElementById('editProductReorder').value),
+            updatedAt: new Date().toISOString()
+        };
+        
+        updateBtn.disabled = true;
+        updateBtn.textContent = 'Updating...';
+        
+        database.ref('products/' + productId).update(updates)
+            .then(() => {
+                alert('Product updated successfully!');
+                closeEditModalFunc();
+                loadInventoryData(currentUserId);
+            })
+            .catch((error) => { alert('Error: ' + error.message); })
+            .finally(() => {
+                updateBtn.disabled = false;
+                updateBtn.textContent = 'Update Product';
+            });
+    });
+
+    // ========== DELETE PRODUCT ==========
+    window.deleteProduct = (productId) => {
+        if (confirm('Are you sure you want to delete this product? This cannot be undone.')) {
+            database.ref('products/' + productId).remove()
+                .then(() => {
+                    alert('Product deleted successfully!');
+                    loadInventoryData(currentUserId);
+                })
+                .catch((error) => { alert('Error: ' + error.message); });
+        }
+    };
+
+    // ========== BARCODE SCANNER ==========
+    const scannerModal = document.getElementById('scannerModal');
+    const scanBtn = document.getElementById('scanBarcodeBtn');
+    const closeScanner = document.querySelector('#scannerModal .close-modal');
+
+    function startScanner() {
+        if (html5QrCode === null) {
+            html5QrCode = new Html5Qrcode("barcode-reader");
+        }
+        
+        html5QrCode.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: { width: 250, height: 100 } },
+            (decodedText) => {
+                stopScanner();
+                scannerModal.style.display = 'none';
+                handleScannedBarcode(decodedText);
+            },
+            (error) => { console.log("Scanning..."); }
+        ).catch(err => { alert("Camera access denied. Please allow camera access."); });
+    }
+
+    function stopScanner() {
+        if (html5QrCode && html5QrCode.isScanning) {
+            html5QrCode.stop().catch(err => console.error(err));
+        }
+    }
+
+    function handleScannedBarcode(barcode) {
+        const existing = allProducts.find(p => p.barcode === barcode);
+        
+        if (existing) {
+            const quantity = prompt(`Product "${existing.name}" found! Enter quantity to add to stock:`, '1');
+            if (quantity && parseInt(quantity) > 0) {
+                const newQuantity = (existing.quantity || 0) + parseInt(quantity);
+                database.ref('products/' + existing.id).update({ quantity: newQuantity })
+                    .then(() => {
+                        alert(`Added ${quantity} ${existing.name}(s). New stock: ${newQuantity}`);
+                        loadInventoryData(currentUserId);
+                    });
+            }
+        } else {
+            const addNew = confirm('New product detected! Would you like to add it to inventory?');
+            if (addNew) {
+                document.getElementById('productBarcode').value = barcode;
+                addModal.style.display = 'flex';
+            }
+        }
+    }
+
+    if (scanBtn) {
+        scanBtn.addEventListener('click', () => {
+            scannerModal.style.display = 'flex';
+            startScanner();
+        });
+    }
+
+    if (closeScanner) {
+        closeScanner.addEventListener('click', () => {
+            stopScanner();
+            scannerModal.style.display = 'none';
+        });
+    }
+
+    document.getElementById('manualEntryBtn').addEventListener('click', () => {
+        stopScanner();
+        scannerModal.style.display = 'none';
+        const barcode = prompt('Enter barcode number manually:');
+        if (barcode) handleScannedBarcode(barcode);
+    });
+
+    // Scan from within Add Modal
+    const scanInModalBtn = document.getElementById('scanInModalBtn');
+    if (scanInModalBtn) {
+        scanInModalBtn.addEventListener('click', () => {
+            addModal.style.display = 'none';
+            scannerModal.style.display = 'flex';
+            startScanner();
+            const checkInterval = setInterval(() => {
+                if (scannerModal.style.display === 'none') {
+                    clearInterval(checkInterval);
+                    addModal.style.display = 'flex';
+                }
+            }, 500);
+        });
+    }
+
+    // ========== THEME TOGGLE ==========
+    const themeToggle = document.getElementById('themeToggle');
+    const darkIcon = document.querySelector('.dark-icon');
+    const lightIcon = document.querySelector('.light-icon');
+
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        if (darkIcon) darkIcon.style.display = 'none';
+        if (lightIcon) lightIcon.style.display = 'inline-block';
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('dark')) {
+                document.body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                if (darkIcon) darkIcon.style.display = 'inline-block';
+                if (lightIcon) lightIcon.style.display = 'none';
+            } else {
+                document.body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                if (darkIcon) darkIcon.style.display = 'none';
+                if (lightIcon) lightIcon.style.display = 'inline-block';
+            }
+        });
+    }
+
+    // ========== MOBILE MENU ==========
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobileOverlay');
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.add('show');
+            overlay.classList.add('show');
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('show');
+        });
+    }
+</script>
+</body>
+</html>

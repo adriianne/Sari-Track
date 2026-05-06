@@ -1,0 +1,159 @@
+:root {
+    --tok-yellow: #f4b400;
+    --tok-orange: #ff7a00;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--white);
+}
+
+/* --- Hero Background --- */
+.hero-wrapper {
+    height: 100vh;
+    width: 100%;
+    /* Replace with your actual image path */
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                url('../images/toktok.jpg') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    padding: 20px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.white { color: white; }
+.yellow { color: var(--tok-yellow); }
+
+/* Glassmorphism Menu */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    background: var(--glass);
+    padding: 10px 30px;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--tok-yellow);
+}
+
+/* --- Auth Buttons --- */
+.auth-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-login, .btn-signup {
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.btn-login {
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-signup {
+    background: var(--tok-orange);
+    color: white;
+}
+
+.btn-signup:hover {
+    background: var(--tok-yellow);
+    transform: scale(1.05);
+}
+
+/* --- Central Hero Text --- */
+.hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 10%;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.main-title {
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.sub-text {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    max-width: 600px;
+    font-weight: 300;
+}
+
+.order-cta {
+    padding: 18px 45px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--tok-orange);
+    background: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.order-cta:hover {
+    background: var(--tok-yellow);
+    color: white;
+    transform: translateY(-5px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .nav-links { display: none; } /* Hide complex nav on mobile */
+    .hero-content { align-items: center; text-align: center; }
+}
