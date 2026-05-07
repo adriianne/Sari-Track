@@ -69,7 +69,7 @@
                 </div>
                 <div class="search-bar">
                     <span class="material-symbols-outlined">search</span>
-                    <input type="text" placeholder="Search products...">
+                    <input type="text" id="searchProducts" placeholder="Search products...">
                 </div>
                 <div class="header-user">
                     <div class="theme-toggle" id="themeToggle">
@@ -87,10 +87,17 @@
             <div class="dashboard-content">
                 <div class="page-header">
                     <h1 class="page-title">🏷️ Products Catalog</h1>
-                    <button class="add-product-btn" id="addProductBtn">
-                        <span class="material-symbols-outlined">add</span>
-                        Add New Product
-                    </button>
+                    <div class="header-actions">
+                        <select id="categoryFilter" class="category-filter">
+                            <option value="all">📦 All Categories</option>
+                            <option value="Beverages">🥤 Beverages</option>
+                            <option value="Snacks">🍿 Snacks</option>
+                            <option value="Canned Goods">🥫 Canned Goods</option>
+                            <option value="Noodles">🍜 Noodles</option>
+                            <option value="Personal Care">🧴 Personal Care</option>
+                            <option value="Household">🧹 Household</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Products Grid -->
@@ -122,6 +129,9 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
+        let allProducts = [];
+        let currentFilter = 'all';
+
         auth.onAuthStateChanged((user) => {
             if (!user) {
                 window.location.href = 'login.html';
@@ -152,7 +162,45 @@
                     product.id = child.key;
                     products.push(product);
                 });
-                displayProducts(products);
+                allProducts = products;
+                filterProductsByCategory(currentFilter);
+            });
+        }
+
+        function filterProductsByCategory(category) {
+            currentFilter = category;
+            let filteredProducts = [...allProducts];
+            
+            if (category !== 'all') {
+                filteredProducts = allProducts.filter(p => p.category === category);
+            }
+            
+            // Apply search filter if exists
+            const searchInput = document.getElementById('searchProducts');
+            if (searchInput && searchInput.value) {
+                const searchTerm = searchInput.value.toLowerCase();
+                filteredProducts = filteredProducts.filter(p => p.name.toLowerCase().includes(searchTerm));
+            }
+            
+            if (filteredProducts.length === 0) {
+                const container = document.getElementById('productsGrid');
+                container.innerHTML = `<div class="empty-state">No products found in ${category} category.</div>`;
+                return;
+            }
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Category filter event listener
+        document.getElementById('categoryFilter').addEventListener('change', (e) => {
+            filterProductsByCategory(e.target.value);
+        });
+
+        // Search input event listener
+        const searchInput = document.getElementById('searchProducts');
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                filterProductsByCategory(currentFilter);
             });
         }
 
@@ -163,62 +211,144 @@
                 container.innerHTML = '<div class="empty-state">No products found. Click "Add New Product" to get started.</div>';
                 return;
             }
-
-            let html = '<div class="products-grid-container">';
-            products.forEach((product) => {
-                let stockClass = '';
-                let stockText = '';
-                
-                if (product.quantity <= 0) {
-                    stockClass = 'out';
-                    stockText = 'Out of Stock';
-                } else if (product.quantity <= (product.reorderPoint || 10)) {
-                    stockClass = 'low';
-                    stockText = 'Low Stock';
-                } else {
-                    stockClass = 'good';
-                    stockText = 'In Stock';
+            
+            // Group products by category
+            const grouped = {};
+            products.forEach(product => {
+                const category = product.category || 'Uncategorized';
+                if (!grouped[category]) {
+                    grouped[category] = [];
                 }
-
+                grouped[category].push(product);
+            });
+            
+            // Define category icons
+            const categoryIcons = {
+                'Beverages': '🥤',
+                'Snacks': '🍿',
+                'Canned Goods': '🥫',
+                'Noodles': '🍜',
+                'Personal Care': '🧴',
+                'Household': '🧹',
+                'Uncategorized': '📦'
+            };
+            
+            let html = '';
+            
+            for (const [category, categoryProducts] of Object.entries(grouped)) {
+                const icon = categoryIcons[category] || '📦';
+                
                 html += `
-                    <div class="product-card">
-                        <div class="product-icon">
-                            <span class="material-symbols-outlined">inventory_2</span>
+                    <div class="category-section">
+                        <div class="category-header">
+                            <h2>${icon} ${category}</h2>
+                            <span class="category-count">${categoryProducts.length} items</span>
                         </div>
-                        <div class="product-details">
-                            <h3 class="product-name">${product.name}</h3>
-                            <p class="product-category">${product.category || 'Uncategorized'}</p>
-                            <div class="product-price">₱${product.price?.toFixed(2) || 0}</div>
-                            <div class="product-stock ${stockClass}">
-                                <span class="material-symbols-outlined">${product.quantity <= 0 ? 'cancel' : (product.quantity <= (product.reorderPoint || 10) ? 'warning' : 'check_circle')}</span>
-                                ${product.quantity || 0} units - ${stockText}
+                        <div class="products-grid-container">
+                `;
+                
+                categoryProducts.forEach(product => {
+                    let stockClass = '';
+                    let stockText = '';
+                    let stockIcon = '';
+                    
+                    if (product.quantity <= 0) {
+                        stockClass = 'out';
+                        stockText = 'Out of Stock';
+                        stockIcon = '🔴';
+                    } else if (product.quantity <= (product.reorderPoint || 10)) {
+                        stockClass = 'low';
+                        stockText = 'Low Stock';
+                        stockIcon = '🟡';
+                    } else {
+                        stockClass = 'good';
+                        stockText = 'In Stock';
+                        stockIcon = '🟢';
+                    }
+                    
+                    html += `
+                        <div class="product-card" data-id="${product.id}">
+                            <div class="product-icon">
+                                <span class="material-symbols-outlined">inventory_2</span>
+                            </div>
+                            <div class="product-details">
+                                <h3 class="product-name">${escapeHtml(product.name)}</h3>
+                                <p class="product-category">${category}</p>
+                                <div class="product-price">₱${product.price?.toFixed(2) || 0}</div>
+                                <div class="product-stock ${stockClass}">
+                                    ${stockIcon} ${product.quantity || 0} units - ${stockText}
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="action-btn edit" onclick="editProduct('${product.id}')">
+                                    <span class="material-symbols-outlined">edit</span>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteProduct('${product.id}')">
+                                    <span class="material-symbols-outlined">delete</span>
+                                </button>
                             </div>
                         </div>
-                        <div class="product-actions">
-                            <button class="action-btn edit" onclick="editProduct('${product.id}')">
-                                <span class="material-symbols-outlined">edit</span>
-                            </button>
-                            <button class="action-btn delete" onclick="deleteProduct('${product.id}')">
-                                <span class="material-symbols-outlined">delete</span>
-                            </button>
+                    `;
+                });
+                
+                html += `
                         </div>
                     </div>
                 `;
-            });
-            html += '</div>';
+            }
+            
             container.innerHTML = html;
         }
 
+        // Helper function to escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
         function editProduct(productId) {
-            alert('Edit product feature coming in Sprint 3!');
+            const product = allProducts.find(p => p.id === productId);
+            if (product) {
+                const newName = prompt('Edit product name:', product.name);
+                if (newName && newName !== product.name) {
+                    database.ref('products/' + productId).update({ name: newName }).then(() => {
+                        loadProductsData(auth.currentUser.uid);
+                    });
+                }
+            }
         }
 
         function deleteProduct(productId) {
-            alert('Delete product feature coming in Sprint 3!');
+            if (confirm('Are you sure you want to delete this product?')) {
+                database.ref('products/' + productId).remove().then(() => {
+                    loadProductsData(auth.currentUser.uid);
+                });
+            }
         }
 
         document.getElementById('addProductBtn').addEventListener('click', () => {
-            alert('Add product page coming in Sprint 3!');
+            const name = prompt('Enter product name:');
+            if (name) {
+                const price = parseFloat(prompt('Enter price (₱):', '0'));
+                const quantity = parseInt(prompt('Enter quantity:', '0'));
+                const category = prompt('Enter category (Beverages/Snacks/etc.):', 'Uncategorized');
+                
+                const newProduct = {
+                    userId: auth.currentUser.uid,
+                    name: name,
+                    category: category,
+                    price: price || 0,
+                    quantity: quantity || 0,
+                    reorderPoint: 10,
+                    createdAt: new Date().toISOString()
+                };
+                
+                database.ref('products').push(newProduct).then(() => {
+                    loadProductsData(auth.currentUser.uid);
+                });
+            }
         });
 
         // Theme Toggle
@@ -229,38 +359,44 @@
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'dark') {
             document.body.classList.add('dark');
-            darkIcon.style.display = 'none';
-            lightIcon.style.display = 'inline-block';
+            if (darkIcon) darkIcon.style.display = 'none';
+            if (lightIcon) lightIcon.style.display = 'inline-block';
         }
 
-        themeToggle.addEventListener('click', () => {
-            if (document.body.classList.contains('dark')) {
-                document.body.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-                darkIcon.style.display = 'inline-block';
-                lightIcon.style.display = 'none';
-            } else {
-                document.body.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-                darkIcon.style.display = 'none';
-                lightIcon.style.display = 'inline-block';
-            }
-        });
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                if (document.body.classList.contains('dark')) {
+                    document.body.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                    if (darkIcon) darkIcon.style.display = 'inline-block';
+                    if (lightIcon) lightIcon.style.display = 'none';
+                } else {
+                    document.body.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                    if (darkIcon) darkIcon.style.display = 'none';
+                    if (lightIcon) lightIcon.style.display = 'inline-block';
+                }
+            });
+        }
 
         // Mobile menu
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.getElementById('mobileOverlay');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.add('show');
-            overlay.classList.add('show');
-        });
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.add('show');
+                overlay.classList.add('show');
+            });
+        }
 
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
+        if (overlay) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
+        }
     </script>
 </body>
 </html>

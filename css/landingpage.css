@@ -501,8 +501,16 @@ body {
   }
   
   .hero-buttons {
-    text-align: center;
+    flex-direction: row;
+    gap: 10px;
   }
+
+      .hero-buttons .btn {
+        flex: 1;              /* ← Equal width buttons */
+        text-align: center;
+        padding: 10px 15px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 768px) {

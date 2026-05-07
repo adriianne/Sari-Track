@@ -155,11 +155,11 @@
     </div>
 
     <div class="mobile-overlay" id="mobileOverlay"></div>
-
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script>
         const firebaseConfig = {
@@ -440,9 +440,10 @@
         }
 
         document.getElementById('generateReportBtn').addEventListener('click', () => {
-            alert('Export report feature - Coming in Sprint 4!');
+            const reportType = currentReport;
+            generatePDFReport(reportType);
         });
-
+        
         // Theme Toggle
         const themeToggle = document.getElementById('themeToggle');
         const darkIcon = document.querySelector('.dark-icon');
@@ -483,6 +484,108 @@
             sidebar.classList.remove('show');
             overlay.classList.remove('show');
         });
+
+        // Generate PDF Report using html2pdf
+// Generate PDF Report with confirmation
+async function generatePDFReport(reportType) {
+    // Show confirmation dialog
+    const userConfirmed = confirm(`📄 Generate ${reportType.toUpperCase()} Report?\n\nThis will create and download a PDF file of your ${reportType} report.`);
+    
+    if (!userConfirmed) {
+        return; // Exit if user cancels
+    }
+    
+    const reportContent = document.getElementById('reportDisplay');
+    const originalHTML = reportContent.innerHTML;
+    
+    // Get current date range info
+    let dateRangeText = '';
+    if (currentRange === 'today') dateRangeText = 'Today';
+    else if (currentRange === 'week') dateRangeText = 'This Week';
+    else if (currentRange === 'month') dateRangeText = 'This Month';
+    else if (currentRange === 'year') dateRangeText = 'This Year';
+    else if (currentRange === 'custom') {
+        const start = document.getElementById('startDate')?.value || 'N/A';
+        const end = document.getElementById('endDate')?.value || 'N/A';
+        dateRangeText = `${start} to ${end}`;
+    }
+    
+    // Create a styled container for PDF
+    const pdfContainer = document.createElement('div');
+    pdfContainer.style.padding = '30px';
+    pdfContainer.style.background = 'white';
+    pdfContainer.style.fontFamily = "'Inter', 'Segoe UI', Arial, sans-serif";
+    pdfContainer.style.width = '100%';
+    pdfContainer.style.maxWidth = '1000px';
+    pdfContainer.style.margin = '0 auto';
+    
+    // Build PDF content
+    pdfContainer.innerHTML = `
+        <div style="text-align: center; margin-bottom: 30px; border-bottom: 3px solid #011D66; padding-bottom: 20px;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;">
+                <span style="font-size: 40px;">🏪</span>
+                <h1 style="color: #011D66; margin: 0; font-size: 28px;">SARI-TRACK</h1>
+            </div>
+            <p style="color: #64748b; margin: 5px 0;">Smart Inventory Management System</p>
+            <p style="color: #64748b; font-size: 12px; margin: 5px 0;">Generated: ${new Date().toLocaleString()}</p>
+            <p style="color: #011D66; font-size: 14px; font-weight: bold; margin-top: 10px;">Period: ${dateRangeText}</p>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <h2 style="color: #011D66; border-left: 4px solid #011D66; padding-left: 15px; margin-bottom: 20px;">
+                ${reportType.toUpperCase()} REPORT
+            </h2>
+            <div id="pdfReportContent" style="min-height: 300px;">
+                ${originalHTML}
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 10px; color: #94a3b8;">
+            <p>SARI-TRACK - Convenient Smart Tracking | ${new Date().getFullYear()}</p>
+            <p>This report is system-generated. For questions, contact your store administrator.</p>
+        </div>
+    `;
+    
+    // Temporarily add to body
+    document.body.appendChild(pdfContainer);
+    
+    // Show loading indicator (optional)
+    const generateBtn = document.getElementById('generateReportBtn');
+    const originalBtnText = generateBtn.innerHTML;
+    generateBtn.innerHTML = '<span class="material-symbols-outlined">hourglass_empty</span> Generating PDF...';
+    generateBtn.disabled = true;
+    
+    // PDF options
+    const opt = {
+        margin: [0.5, 0.5, 0.5, 0.5],
+        filename: `${reportType}_report_${new Date().toISOString().split('T')[0]}.pdf`,
+        image: { type: 'png', quality: 1 },
+        html2canvas: { 
+            scale: 2,
+            letterRendering: true,
+            useCORS: true,
+            logging: false
+        },
+        jsPDF: { 
+            unit: 'in', 
+            format: 'a4', 
+            orientation: 'portrait'
+        }
+    };
+    
+    // Generate and download PDF
+    try {
+        await html2pdf().set(opt).from(pdfContainer).save();
+    } catch (error) {
+        console.error('PDF generation error:', error);
+        alert('Error generating PDF. Please try again.');
+    } finally {
+        document.body.removeChild(pdfContainer);
+        generateBtn.innerHTML = originalBtnText;
+        generateBtn.disabled = false;
+    }
+}
+        
     </script>
 </body>
 </html>

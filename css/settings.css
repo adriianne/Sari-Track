@@ -490,3 +490,116 @@ body.dark .danger-item {
         text-align: center;
     }
 }
+
+/* Avatar Upload Styles */
+.avatar-upload {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    background: #f1f5f9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 3px solid #011D66;
+}
+
+.avatar-buttons {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.upload-btn, .remove-avatar-btn {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+    background: #e2e8f0;
+}
+
+.remove-avatar-btn {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.remove-avatar-btn:hover {
+    background: #fecaca;
+}
+
+.avatar-hint {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 5px;
+    width: 100%;
+}
+
+/* Account Statistics */
+.account-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.account-stats .stat-item {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.account-stats .stat-label {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.account-stats .stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #011D66;
+}
+
+.account-stats .status-active {
+    color: #10b981;
+}
+
+/* Dark Mode */
+body.dark .avatar-preview {
+    background: #0f172a;
+    border-color: #60a5fa;
+}
+
+body.dark .account-stats .stat-item {
+    background: #0f172a;
+}
+
+body.dark .account-stats .stat-value {
+    color: #60a5fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .account-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .avatar-upload {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
